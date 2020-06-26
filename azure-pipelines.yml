@@ -50,7 +50,7 @@ jobs:
       - Build
       - Test
       - Deploy_staging
-    condition: eq($(Build.SourceBranchName), 'master')
+    condition: eq(variables['Build.SourceBranchName'], 'master')
     environment: production
     strategy:
      runOnce:
