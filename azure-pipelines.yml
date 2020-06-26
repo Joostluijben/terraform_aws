@@ -12,6 +12,7 @@ pool:
 steps:
 - task: Maven@3
   inputs:
+    publishJUnitResults: false
     mavenPomFile: 'pom.xml'
     javaHomeOption: 'JDKVersion'
     mavenVersionOption: 'Default'
