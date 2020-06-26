@@ -11,14 +11,11 @@ pool:
 
 steps:
 - task: Maven@3
+  displayName: 'Maven Package'
   inputs:
+    goals: package
     mavenPomFile: 'pom.xml'
-    publishJUnitResults: false
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
+    jdkVersionOption: '1.11'
 - task: Docker@2
   inputs:
     containerRegistry: 'azure Code cafe'
