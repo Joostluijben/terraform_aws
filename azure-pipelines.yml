@@ -12,8 +12,8 @@ pool:
 steps:
 - task: Maven@3
   inputs:
-    publishJUnitResults: false
     mavenPomFile: 'pom.xml'
+    publishJUnitResults: false
     javaHomeOption: 'JDKVersion'
     mavenVersionOption: 'Default'
     mavenAuthenticateFeed: false
