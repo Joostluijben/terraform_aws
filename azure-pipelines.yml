@@ -12,6 +12,6 @@ pool:
 steps:
 - task: Docker@2
   inputs:
+    containerRegistry: 'azure Code cafe'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    containerRegistry: azureCodeCafe
