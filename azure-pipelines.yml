@@ -8,19 +8,59 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
-
-steps:
-- task: Maven@3
-  displayName: 'Maven Package'
-  inputs:
-    goals: package
-    mavenPomFile: 'pom.xml'
-    jdkVersionOption: '1.11'
-- task: Docker@2
-  inputs:
-    containerRegistry: 'azure Code cafe'
-    repository: 'azurePipelinesCodeCafe'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      azurepipelinecodecafe
+jobs:
+  - job: Build
+    steps:
+    - task: Maven@3
+      displayName: 'Maven Package'
+      inputs:
+        goals: package
+        mavenPomFile: 'pom.xml'
+        jdkVersionOption: '1.11'
+  
+  - job: Test
+    dependsOn: Build
+    steps:
+    - task: Maven@3
+      inputs:
+        goals: test
+        mavenPomFile: 'pom.xml'
+        jdkVersionOption: '1.11'
+  
+  - deployment: Deploy_staging
+    dependsOn:
+     - Build
+     - Test
+    environment: testing
+    strategy:
+     runOnce:
+       deploy:   
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'azure Code cafe'
+              repository: 'azurePipelinesCodeCafe'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
+              tags: |
+                azurepipelinecodecafe
+  
+  - deployment: Deploy_staging
+    dependsOn:
+      - Build
+      - Test
+      - Deploy_staging
+    condition: eq($(Build.SourceBranchName), 'master')
+    environment: production
+    strategy:
+     runOnce:
+       deploy:   
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'azure Code cafe'
+              repository: 'azurePipelinesCodeCafe'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
+              tags: |
+                azurepipelinecodecafe
