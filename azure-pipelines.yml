@@ -22,4 +22,5 @@ steps:
     repository: 'azurePipelinesCodeCafe'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
-    tags: springio/codecafe
+    tags: |
+      azurepipelinecodecafe
