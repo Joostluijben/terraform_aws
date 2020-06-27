@@ -29,7 +29,6 @@ stages:
       - Build
     jobs:
     - job: Test
-      dependsOn: Build
       steps:
       - task: Maven@3
         inputs:
