@@ -11,21 +11,21 @@ pool:
 jobs:
   - job: Build
     steps:
-    - task: Maven@3
-      displayName: 'Maven Package'
-      inputs:
-        goals: package
-        mavenPomFile: 'pom.xml'
-        jdkVersionOption: '1.11'
+      - task: Maven@3
+        displayName: 'Maven Package'
+        inputs:
+          goals: package
+          mavenPomFile: 'pom.xml'
+          jdkVersionOption: '1.11'
   
   - job: Test
     dependsOn: Build
     steps:
-    - task: Maven@3
-      inputs:
-        goals: test
-        mavenPomFile: 'pom.xml'
-        jdkVersionOption: '1.11'
+      - task: Maven@3
+        inputs:
+          goals: test
+          mavenPomFile: 'pom.xml'
+          jdkVersionOption: '1.11'
   
   - deployment: Deploy_staging
     dependsOn:
@@ -36,14 +36,14 @@ jobs:
      runOnce:
        deploy:   
         steps:
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'azure Code cafe'
-              repository: 'azurePipelinesCodeCafe'
-              command: 'buildAndPush'
-              Dockerfile: '**/Dockerfile'
-              tags: |
-                azurepipelinecodecafe
+            - task: Docker@2
+              inputs:
+                containerRegistry: 'azure Code cafe'
+                repository: 'azurePipelinesCodeCafe'
+                command: 'buildAndPush'
+                Dockerfile: '**/Dockerfile'
+                tags: |
+                  azurepipelinecodecafe
   
   - deployment: Deploy_Production
     dependsOn:
@@ -56,11 +56,11 @@ jobs:
      runOnce:
        deploy:   
         steps:
-          - task: Docker@2
-            inputs:
-              containerRegistry: 'azure Code cafe'
-              repository: 'azurePipelinesCodeCafe-production'
-              command: 'buildAndPush'
-              Dockerfile: '**/Dockerfile'
-              tags: |
-                azurepipelinecodecafe-production
+            - task: Docker@2
+              inputs:
+                containerRegistry: 'azure Code cafe'
+                repository: 'azurePipelinesCodeCafe-production'
+                command: 'buildAndPush'
+                Dockerfile: '**/Dockerfile'
+                tags: |
+                  azurepipelinecodecafe-production
