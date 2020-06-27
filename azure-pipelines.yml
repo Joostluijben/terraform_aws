@@ -21,7 +21,7 @@ stages:
             jdkVersionOption: '1.11'
         - task: PublishPipelineArtifact@1
           inputs:
-            targetPath: '$(System.DefaultWorkingDirectory)/**/target/*.?(war|jar)'
+            targetPath: '$(System.DefaultWorkingDirectory)/target/*.?(war|jar)'
             artifact: 'drop'
             publishLocation: 'pipeline'
   - stage: Test
