@@ -20,7 +20,7 @@ stages:
             mavenPomFile: 'pom.xml'
             jdkVersionOption: '1.11'
         - powershell: dir -r  | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
-        - publish:  $(System.DefaultWorkingDirectory)/target/*.jar
+        - publish:  $(System.DefaultWorkingDirectory)/target/demo_azure_pipelines_codecafe-0.0.1-SNAPSHOT.jar
           artifact: drop
   - stage: Test
     dependsOn:
