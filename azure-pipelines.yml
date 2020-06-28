@@ -19,6 +19,7 @@ stages:
             goals: package
             mavenPomFile: 'pom.xml'
             jdkVersionOption: '1.11'
+        - powershell: dir -r  | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
         - publish:  $(System.DefaultWorkingDirectory)/**/*.jar
           artifact: drop
   - stage: Test
