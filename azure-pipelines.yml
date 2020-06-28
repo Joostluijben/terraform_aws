@@ -9,22 +9,8 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 stages:
-  - stage: Build
-    jobs:
-      - job: MavenPackageAndPublishArtifacts
-        steps:
-        - task: Maven@3
-          displayName: 'Maven Package'
-          inputs:
-            goals: package
-            mavenPomFile: 'pom.xml'
-            jdkVersionOption: '1.11'
-        - powershell: dir -r  | % { if ($_.PsIsContainer) { $_.FullName + "\" } else { $_.FullName } }
-        - publish:  $(System.DefaultWorkingDirectory)/target/demo_azure_pipelines_codecafe-0.0.1-SNAPSHOT.jar
-          artifact: drop
   - stage: Test
     dependsOn:
-      - Build
     jobs:
     - job: Test
       steps:
@@ -35,7 +21,6 @@ stages:
           jdkVersionOption: '1.11'
   - stage: Deploy_staging
     dependsOn:
-      - Build
       - Test
     jobs:
     - deployment: Deploy_staging
@@ -45,6 +30,12 @@ stages:
           deploy:   
             steps:
                 - checkout: self
+                - task: Maven@3
+                  displayName: 'Maven Package'
+                  inputs:
+                    goals: package
+                    mavenPomFile: 'pom.xml'
+                    jdkVersionOption: '1.11'
                 - task: Docker@2
                   inputs:
                     containerRegistry: 'azure Code cafe'
@@ -55,7 +46,6 @@ stages:
                       azurepipelinecodecafe
   - stage: Deploy_production
     dependsOn:
-      - Build
       - Test
       - Deploy_staging
     jobs:
@@ -67,6 +57,12 @@ stages:
           deploy:   
             steps:
                 - checkout: self
+                - task: Maven@3
+                  displayName: 'Maven Package'
+                  inputs:
+                    goals: package
+                    mavenPomFile: 'pom.xml'
+                    jdkVersionOption: '1.11'
                 - task: Docker@2
                   inputs:
                     containerRegistry: 'azure Code cafe'
