@@ -1,0 +1,73 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+stages:
+  - stage: Test
+    dependsOn:
+    jobs:
+    - job: Test
+      steps:
+      - task: Maven@3
+        inputs:
+          goals: test
+          mavenPomFile: 'pom.xml'
+          jdkVersionOption: '1.11'
+  - stage: Deploy_staging
+    dependsOn:
+      - Test
+    jobs:
+    - deployment: Deploy_staging
+      environment: testing
+      strategy:
+        runOnce:
+          deploy:   
+            steps:
+                - checkout: self
+                - task: Maven@3
+                  displayName: 'Maven Package'
+                  inputs:
+                    goals: package
+                    mavenPomFile: 'pom.xml'
+                    jdkVersionOption: '1.11'
+                - task: Docker@2
+                  inputs:
+                    containerRegistry: 'azure Code cafe'
+                    repository: 'azurePipelinesCodeCafe'
+                    command: 'buildAndPush'
+                    Dockerfile: '**/Dockerfile'
+                    tags: |
+                      azurepipelinecodecafe
+  - stage: Deploy_production
+    dependsOn:
+      - Test
+      - Deploy_staging
+    jobs:
+    - deployment: Deploy_Production
+      condition: eq(variables['Build.SourceBranchName'], 'master')
+      environment: production
+      strategy:
+        runOnce:
+          deploy:   
+            steps:
+                - checkout: self
+                - task: Maven@3
+                  displayName: 'Maven Package'
+                  inputs:
+                    goals: package
+                    mavenPomFile: 'pom.xml'
+                    jdkVersionOption: '1.11'
+                - task: Docker@2
+                  inputs:
+                    containerRegistry: 'azure Code cafe'
+                    repository: 'azurePipelinesCodeCafe-production'
+                    command: 'buildAndPush'
+                    Dockerfile: '**/Dockerfile'
+                    tags: |
+                      azurepipelinecodecafe-production
