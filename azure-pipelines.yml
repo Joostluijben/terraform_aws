@@ -35,5 +35,5 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          terraform init
-          terraform apply
+          terraform init -input=false
+          terraform apply -input=false -auto-approve
