@@ -44,4 +44,4 @@ stages:
       inputs:
         targetType: 'inline'
         script: |
-          Write-Host $repo_url
+          Write-Host $env:repo_url
