@@ -21,7 +21,7 @@ data "aws_ecr_repository" "test_terraform" {
 }
 
 output "test_terraform_output_url" {
-  value = aws_ecr_repository.test_terraform.repository_url
+  value = data.aws_ecr_repository.test_terraform.repository_url
 }
 
 
