@@ -1,6 +1,7 @@
 # Configure the AWS Provider
 provider "aws" {
   version = "~> 3.0"
+  region = "eu-west-3"
 }
 
 //resource "aws_ecr_repository" "test_terraform" {
