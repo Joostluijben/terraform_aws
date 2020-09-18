@@ -16,13 +16,12 @@ provider "aws" {
 //  name = "cluster_terraform"
 //}
 
-data "aws_ecr_repository" "test_terraform" {
+resource "aws_ecr_repository" "test_terraform" {
   name = "test_terraform"
-
 }
 
-//output "test_terraform_output_url" {
-//  value = aws_ecr_repository.test_terraform.repository_url
-//}
-//
-//
+output "test_terraform_output_url" {
+  value = aws_ecr_repository.test_terraform.repository_url
+}
+
+
