@@ -31,17 +31,11 @@ stages:
         command: build
         Dockerfile: '**/Dockerfile'
         tags: 'aws_terraform'
-    - task: PowerShell@2
-      name: Terraform
-      inputs:
-        targetType: 'inline'
-        script: |
+    - bash: |
           terraform init -input=false
           terraform apply -input=false -auto-approve
           $repo_url = terraform output
+          echo $repo_url
           echo "##vso[task.setvariable variable=repo_url]$repo_url"
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: |
-          Write-Host $env:repo_url
+    - bash: |
+          echo $repo_url
