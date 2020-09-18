@@ -37,5 +37,4 @@ stages:
         script: |
           terraform init -input=false
           terraform apply -input=false -auto-approve
-          repo_url = $(terraform output)
-          echo $repo_url
+          terraform output
