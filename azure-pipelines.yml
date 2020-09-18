@@ -38,6 +38,7 @@ stages:
         script: |
           terraform init -input=false
           $repo_url = terraform apply -input=false -auto-approve
+          echo $(repo_url)
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
