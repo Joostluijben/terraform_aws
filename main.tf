@@ -16,7 +16,7 @@ provider "aws" {
 //  name = "cluster_terraform"
 //}
 
-resource "aws_ecr_repository" "test_terraform" {
+data "aws_ecr_repository" "test_terraform" {
   name = "test_terraform"
 }
 
