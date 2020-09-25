@@ -50,5 +50,5 @@ stages:
           $docker_repo_name = $(json_url).Split("/")[1]
           aws ecr get-login-password --region $(TF_VAR_AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $docker_repo_url
           docker build -t "$docker_repo_name" .
-          docker tag "$docker_repo_name":latest "$json_url":latest
+          docker tag "$($env:docker_repo_name):latest" "$($env:json_url):latest"
           docker push "$(json_url)":latest
