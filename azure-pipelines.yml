@@ -49,5 +49,5 @@ stages:
           aws ecr get-login-password --region $(TF_VAR_AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $(json_url).Split("/")[0]
           Write-Host $(json_url)
           docker build -t test_terraform .
-          docker tag test_terraform:latest $(json_url):latest
-          docker push $(json_url):latest
+          docker tag test_terraform:latest "$(json_url)":latest
+          docker push "$(json_url)":latest
