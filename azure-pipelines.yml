@@ -46,5 +46,4 @@ stages:
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
-          aws ecr get-login-password --region eu-west-3 | docker login --username AWS --password-stdin 354672691432.dkr.ecr.eu-west-3.amazonaws.com
-           Write-Host $(json_url).Split("/")[0]
+          aws ecr get-login-password --region $(TF_VAR_AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $(json_url).Split("/")[0]
