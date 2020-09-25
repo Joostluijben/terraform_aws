@@ -46,8 +46,9 @@ stages:
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
-          $docker_repo_url = $(json_url).Split("/")[0]
-          $docker_repo_name = $(json_url).Split("/")[1]
+          docker_repo_url = $(json_url).Split("/")[0]
+          docker_repo_name = $(json_url).Split("/")[1]
+          Write-Host $(docker_repo_name)
           aws ecr get-login-password --region $(TF_VAR_AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $docker_repo_url
           docker build -t "$(docker_repo_name)" .
           docker tag "$(docker_repo_name)":latest "$(json_url)":latest
