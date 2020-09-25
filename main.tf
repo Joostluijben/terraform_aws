@@ -1,7 +1,12 @@
+variable "AWS_DEFAULT_REGION" {
+  type = string
+   default = "eu-west-2"
+}
+
 # Configure the AWS Provider
 provider "aws" {
   version = "~> 3.0"
-  region = "eu-west-3"
+  region = var.AWS_DEFAULT_REGION
 }
 
 //resource "aws_ecr_repository" "test_terraform" {
