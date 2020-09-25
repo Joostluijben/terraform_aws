@@ -46,8 +46,9 @@ stages:
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
           sudo ./aws/install
-          aws ecr get-login-password --region $(TF_VAR_AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $(json_url).Split("/")[0]
-          Write-Host $(json_url)
-          docker build -t test_terraform .
-          docker tag test_terraform:latest "$(json_url)":latest
+          $docker_repo_url = $(json_url).Split("/")[0]
+          $docker_repo_name = $(json_url).Split("/")[1]
+          aws ecr get-login-password --region $(TF_VAR_AWS_DEFAULT_REGION) | docker login --username AWS --password-stdin $docker_repo_url
+          docker build -t "$docker_repo_name" .
+          docker tag "$docker_repo_name" "$(json_url)":latest
           docker push "$(json_url)":latest
