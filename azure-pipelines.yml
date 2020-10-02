@@ -56,4 +56,4 @@ stages:
           docker build -t "$docker_repo_name" .
           docker tag "$docker_repo_name" "$(json_url)":latest
           docker push "$(json_url)":latest
-          aws ecs update-service --region $(TF_VAR_AWS_DEFAULT_REGION) --cluster $ECS_CLUSTER --service $ECS_SERVICE --force-new-deployment
+          aws ecs update-service --region $(TF_VAR_AWS_DEFAULT_REGION) --cluster $(ECS_CLUSTER) --service $(ECS_SERVICE) --force-new-deployment
