@@ -26,8 +26,23 @@ data "aws_ecr_repository" "terraform" {
   name = "terraform"
 }
 
+data "aws_ecs_cluster" "test" {
+  cluster_name = "test"
+}
+
+data "aws_ecs_service" "terraform" {
+  service_name = "terraform"
+  cluster_arn = data.aws_ecs_cluster.test.arn
+}
+
 output "test_terraform_output_url" {
   value = data.aws_ecr_repository.terraform.repository_url
 }
 
+output "ecs-cluster" {
+  value = data.aws_ecs_cluster.test.arn
+}
 
+output "ecs-service" {
+  value = data.aws_ecs_service.terraform.service_name
+}
