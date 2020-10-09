@@ -5,7 +5,7 @@ variable "AWS_DEFAULT_REGION" {
 
 # Configure the AWS Provider
 provider "aws" {
-  version = "~> 3.0"
+  version = "3.0"
   region = var.AWS_DEFAULT_REGION
 }
 
